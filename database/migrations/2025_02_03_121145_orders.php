@@ -14,11 +14,13 @@ return new class extends Migration
         Schema::create('orders', function (Blueprint $table) {
             $table->id();
             $table->unsignedBigInteger('offer_id'); // Foreign key to offers table
+            $table->unsignedBigInteger('user_id');
             $table->decimal('total_amount' , 10,2); // Total amount 
             $table->string('to_city');
             $table->string('to_street');
             $table->decimal('order_price', 10, 2); // Price of the order
-            $table->decimal('offer_price', 10, 2); // Price of the offer
+            //$table->decimal('offer_price', 10, 2); // Price of the offer
+            $table->string('description')->nullable(); 
             $table->enum('status', ['pending', 'processing', 'completed', 'canceled'])->default('pending'); // Order status
             $table->timestamps();
         });

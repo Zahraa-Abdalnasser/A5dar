@@ -49,10 +49,11 @@ class OfferController extends Controller
                 'user_id' => auth()->id(), // Get the logged-in user’s ID
                // 'custome_user_id' => $user->id,       
             ]);
-    
+         // $image_url =  asset('storage/' . $image->image_path);
             return response()->json([
                 'message' => 'Offer created successfully',
                 'offer' => $offer
+
             ], 201);
         }
     
@@ -113,18 +114,16 @@ class OfferController extends Controller
     /**
      * Remove the specified resource from storage.
      */
-    public function destroy($id)
+    public function destroy(offer $offer)
     {
           // Find the product by ID
-          $product = offer::find($id);
-
-          if (!$product) {
-              return response()->json(['message' => 'Product not found'], 404);
-          }
-  
-          // Delete the product
-          $product->delete();
-  
-          return response()->json(['message' => 'Product deleted successfully'], 200);
+          if (Auth::id() !== $offer->user_id) {
+            return response()->json(['message' => 'Unauthorized'], 403);
+        }
+    
+        // Delete the offer
+        $offer->delete();
+    
+        return response()->json(['message' => 'Offer deleted successfully'], 200);
     }
 }

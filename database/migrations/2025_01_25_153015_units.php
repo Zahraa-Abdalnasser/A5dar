@@ -14,6 +14,7 @@ return new class extends Migration
         Schema::create('units', function (Blueprint $table) {
             $table->id();
             $table->string('unit_name')->nullable(false);
+            $table->string('unit_Abbreviation')->nullable(); 
         });
     }
 

@@ -7,6 +7,6 @@ use Illuminate\Database\Eloquent\Model;
 class Category extends Model
 {
     use HasFactory;
-
+    public $timestamps = false; // ✅ Prevents Laravel from inserting timestamps
     protected $fillable = ['name'];
 }

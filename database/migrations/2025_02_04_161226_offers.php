@@ -26,7 +26,7 @@ return new class extends Migration
             $table->string('image_path')->nullable(false); // Add the image column
             $table->integer('amount')->nullable(false); 
             $table->integer('unit_price')->nullable(false); 
-            $table->integer('status'); 
+            $table->integer('status')->defualt(1); 
             $table->timestamps();
         });
     }

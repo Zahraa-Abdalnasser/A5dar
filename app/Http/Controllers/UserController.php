@@ -6,6 +6,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Facades\Validator;
 use App\Models\User; 
+use App\Models\offer; 
 use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
@@ -67,10 +68,21 @@ class UserController extends Controller
 
     
      
-    public function show(string $id)
-    {
-        //
-    }
+     public function profile()
+     {
+         $user = Auth::user();
+ 
+         if (!$user) {
+             return response()->json(['message' => 'User not authenticated'], 401);
+         }
+ 
+         // Load the user's offers
+         $user->load('offers');
+ 
+         return response()->json([
+             'user' => $user
+         ]);
+     }
 
     /**
      * Update the specified resource in storage.
@@ -133,14 +145,28 @@ class UserController extends Controller
     }
 
 
-       
+    public function logout(Request $request)
+    {
+        $user = Auth::user();
 
+        if (!$user) {
+            return response()->json(['message' => 'User not authenticated'], 401);
+        }
+        offer::where('user_id', $user->id)->update(['status' => 0]);
 
+        // Revoke all tokens if using Sanctum (API Authentication)
+        $user->tokens()->delete();
+
+        return response()->json(['message' => 'Logged out successfully and all offers are inactive']);
+    }     
+
+/*
     public function logout(Request $request)
     {
         $request->user()->currentAccessToken()->delete();
         return response()->json(['message' => 'Logged out successfully.'], 200);
     }
 
+*/
 
 }
