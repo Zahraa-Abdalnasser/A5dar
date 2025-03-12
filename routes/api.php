@@ -17,9 +17,9 @@ return response()->json([
 // user 
 Route::post('/register',[UserController::class,'register']);
 Route::post('/login',[UserController::class,'login']); 
+Route::get('/user/{id}', [UserController::class, 'show']); // show profile 
 
 Route::middleware('auth:sanctum')->group(function () {
-Route::get('/profile', [UserController::class, 'profile']);
 Route::post('/update/{id}',[UserController::class,'update']); 
 Route::post('/logout', [UserController::class, 'logout']);
 });
@@ -36,5 +36,9 @@ Route::middleware('auth:sanctum')->group(function () {
     Route::post('/offers/{offer}/orders', [OrderController::class, 'store']);
     Route::post('/orders/{order}', [OrderController::class, 'update']);
     Route::delete('/orders/{order}', [OrderController::class, 'destroy']);
+    
+    Route::post('/orders/{order}/decision', [OrderController::class, 'handleOrderDecision']);
+
+
 });
 

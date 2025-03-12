@@ -68,21 +68,23 @@ class UserController extends Controller
 
     
      
-     public function profile()
-     {
-         $user = Auth::user();
- 
-         if (!$user) {
-             return response()->json(['message' => 'User not authenticated'], 401);
-         }
- 
-         // Load the user's offers
-         $user->load('offers');
- 
-         return response()->json([
-             'user' => $user
-         ]);
-     }
+     public function show($id)
+{
+    // Retrieve the farmer by ID and ensure they have the role 'farmer'
+    $farmer = User::find($id);
+
+    if (!$farmer) {
+        return response()->json(['message' => 'Farmer not found'], 404);
+    }
+
+    // Retrieve all offers created by this farmer
+    $offers = offer::where('user_id', $id)->get();
+
+    return response()->json([
+        'farmer' => $farmer,
+        'offers' => $offers
+    ], 200);
+}
 
     /**
      * Update the specified resource in storage.

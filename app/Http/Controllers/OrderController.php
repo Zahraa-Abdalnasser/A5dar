@@ -4,9 +4,11 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\offer;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-
+use App\Events\OrderPlaced;
+use App\Events\OrderResponse;
 class OrderController extends Controller
 {
     // Apply Sanctum authentication to all methods in this controller.
@@ -63,6 +65,8 @@ class OrderController extends Controller
         'status'       => 'pending',
         'description' => $request->description,
     ]);
+// Fire the event after order creation
+event(new OrderPlaced($order,$offer));
 
     return response()->json($order, 201);
 }
@@ -124,4 +128,47 @@ class OrderController extends Controller
 
         return response()->json(['message' => 'Order deleted successfully'], 204);
     }
+
+    
+    public function handleOrderDecision(Request $request, Order $order)
+    {
+        $request->validate([
+            'decision' => 'required|in:accept,reject',
+        ]);
+
+        DB::transaction(function () use ($order, $request) {
+            if ($request->decision === 'accept') {
+                // Accept the order
+                $order->status = 'accepted';
+                $order->save();
+
+                // Get the related offer
+                $offer = $order->offer;
+
+                // Reject all other orders for this offer
+                Order::where('offer_id', $offer->id)
+                    ->where('id', '!=', $order->id)
+                    ->update(['status' => 'rejected']);
+
+                // Mark offer as sold
+                $offer->status = 0;
+                $offer->save();
+            } else {
+                // Reject the order
+                $order->status = 'rejected';
+                $order->save();
+            }
+        });
+
+        event(new OrderResponse($order));
+
+        return response()->json([
+            'message' => 'Order decision processed successfully',
+            'order' => $order
+        ]);
+    }
+
+    
 }
+
+

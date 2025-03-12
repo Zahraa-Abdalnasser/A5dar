@@ -21,7 +21,7 @@ return new class extends Migration
             $table->decimal('order_price', 10, 2); // Price of the order
             //$table->decimal('offer_price', 10, 2); // Price of the offer
             $table->string('description')->nullable(); 
-            $table->enum('status', ['pending', 'processing', 'completed', 'canceled'])->default('pending'); // Order status
+            $table->enum('status', ['pending', 'processing', 'accepted', 'rejected'])->default('pending'); // Order status
             $table->timestamps();
         });
 
