@@ -13,9 +13,12 @@ class OfferController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
-        return offer::all();
-    }
+{
+    $offers = offer::with(['user:id,name,photo'])->get(); // جلب بيانات المستخدم مع الصورة
+
+    return response()->json($offers);
+}
+
 
     /**
      * Store a newly created resource in storage.
@@ -77,37 +80,49 @@ class OfferController extends Controller
     /**
      * Update the specified resource in storage.
      */
-    public function update(Request $request,$id)
+    public function update(Request $request, $id)
     {
         \Log::info('Request Data:', $request->all());
-        // Find the product by ID
-         $product = offer::find($id);
-
-         if (!$product) {
-             return response()->json(['message' => 'Product not found'], 404);
-         }
- 
-         // Validate the incoming request
-         $validated = $request->validate([
-        'offer_name' => 'string|max:255',
-        'amount' => 'sometimes|numeric|min:1',
-        'unit_price' => 'sometimes|numeric|min:0',
-        'status' => 'sometimes|numeric',
-        'unit_id' => 'sometimes|exists:units,id',
-        'cat_id' => 'sometimes|exists:categories,id',
-        'image_path' => 'sometimes|image|mimes:jpeg,png,jpg,gif|max:2048'
-         ]);
-         
-          //  $product->offer_name = $request->offer_name;
-            $product->update($validated);
-            $product->save();
-       //  return response()->json(['name'=> $product->offer_name]); 
-        
-         // Update the product
-         // $product->update($validated);
-         // $product->fill($validated);
-         return response()->json($product, 200); // Return the updated product
-     }
+    
+        $product = offer::find($id);
+    
+        if (!$product) {
+            return response()->json(['message' => 'Product not found'], 404);
+        }
+    
+        // تحقق من وجود صورة جديدة وحذف الصورة القديمة إذا وجدت
+        if ($request->hasFile('image_path')) {
+            $request->validate([
+                'image_path' => 'image|mimes:jpeg,png,jpg,gif|max:2048'
+            ]);
+    
+            // حذف الصورة القديمة من التخزين
+            if ($product->image_path) {
+                \Storage::disk('public')->delete($product->image_path);
+            }
+    
+            // تخزين الصورة الجديدة
+            $imagePath = $request->file('image_path')->store('offers', 'public');
+            $product->image_path = $imagePath;
+        }
+    
+        // تحديث باقي البيانات
+        $validated = $request->validate([
+            'offer_name' => 'string|max:255',
+            'amount' => 'sometimes|numeric|min:1',
+            'unit_price' => 'sometimes|numeric|min:0',
+            'status' => 'sometimes|numeric',
+            'unit_id' => 'sometimes|exists:units,id',
+            'cat_id' => 'sometimes|exists:categories,id',
+        ]);
+    
+        $product->update($validated);
+        $product->save();
+    
+        return response()->json($product, 200);
+    }
+    
+    
  
     
 

@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\offer;
+use App\Models\User;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -11,19 +12,8 @@ use App\Events\OrderPlaced;
 use App\Events\OrderResponse;
 class OrderController extends Controller
 {
-    // Apply Sanctum authentication to all methods in this controller.
-    /*
-    public function __construct()
-    {
-        $this->middleware('auth:sanctum');
-    }
-    */
-    /**
-     * Store a new order for a given offer.
-     * A user can only create one order per offer.
-     *
-     * Route: POST /api/orders  (or you can bind it as /api/offers/{offer}/orders)
-     */
+   
+
     public function store(Request $request, offer $offer)
 {
     // Validate the incoming request data.

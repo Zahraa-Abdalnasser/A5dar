@@ -8,6 +8,7 @@ use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens; // ✅ Correct namespace
 use App\Models\offer; 
+use App\Models\Order; 
 class User extends Authenticatable
 {
     /** @use HasFactory<\Database\Factories\UserFactory> */
@@ -29,6 +30,10 @@ class User extends Authenticatable
     public function offers()
     {
         return $this->hasMany(offer::class);
+    }
+    public function orders()
+    {
+        return $this->hasMany(Order::class);
     }
     
     /**

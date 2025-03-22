@@ -79,12 +79,21 @@ class UserController extends Controller
 
     // Retrieve all offers created by this farmer
     $offers = offer::where('user_id', $id)->get();
-
     return response()->json([
-        'farmer' => $farmer,
+        'farmer' => [
+            'id' => $farmer->id,
+            'name' => $farmer->name,
+            'email' => $farmer->email,
+            'phone_number' => $farmer->phone_number,
+            'image_url' => $farmer->photo ? asset('storage/' . $farmer->photo) : 'https://placehold.co/150',
+            'photo' => $farmer->photo // تأكد من إرجاع photo أيضًا
+        ],
         'offers' => $offers
     ], 200);
+    
+    
 }
+
 
     /**
      * Update the specified resource in storage.
