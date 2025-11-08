@@ -23,5 +23,14 @@ Farmars , Traders , System admins
 # Assumptions 
 - All users have better internet connection and a browser
 
+# User Use Case ( Farmers and Traders )
+![Diagram](User use case (1).png)
+
+# Admin Use Case
+![Diagram](Admin use case.png)
+
+# A5dar ERD
+![Diagram](A5dar ERD (1).pdf)
+
 
 
