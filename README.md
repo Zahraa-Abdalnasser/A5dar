@@ -28,9 +28,12 @@ Farmars , Traders , System admins
 
 # Admin Use Case
 <img align="center" src="Admin use case.png" width="350" height="250"/>
+
 # Sequence diagrams 
 <img align="center" src="Add_offer_seq_diagram.jpg" width="350" height="250" />
 <img align="center" src="make_order_diagram_from_pdf.png" width="350" />
 
+# A5dar ERD
+<img align = "center" src="A5dar ERD.png" width="600" height="500"/>
 
 
