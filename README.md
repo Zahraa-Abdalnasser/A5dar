@@ -29,8 +29,8 @@ Farmars , Traders , System admins
 # Admin Use Case
 <img align="center" src="Admin use case.png" />
 # Sequence diagrams 
-![Diagram](Add_offer_seq_diagram.jpg)
-![Diagram](make_order_diagram_from_pdf.png)
+<img align="center" src="Add_offer_seq_diagram.jpg" />
+<img align="center" src="make_order_diagram_from_pdf.png">
 
 
 
