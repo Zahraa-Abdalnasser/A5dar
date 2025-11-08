@@ -24,13 +24,13 @@ Farmars , Traders , System admins
 - All users have better internet connection and a browser
 
 # User Use Case ( Farmers and Traders )
-<img align="center" src="User use case (1).png" />
+<img align="center" src="User use case (1).png"  width="350" />
 
 # Admin Use Case
-<img align="center" src="Admin use case.png" />
+<img align="center" src="Admin use case.png" width="350" height="250"/>
 # Sequence diagrams 
-<img align="center" src="Add_offer_seq_diagram.jpg" />
-<img align="center" src="make_order_diagram_from_pdf.png">
+<img align="center" src="Add_offer_seq_diagram.jpg" width="350" height="250" />
+<img align="center" src="make_order_diagram_from_pdf.png" width="350" />
 
 
 
