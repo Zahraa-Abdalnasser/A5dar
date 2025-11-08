@@ -24,12 +24,12 @@ Farmars , Traders , System admins
 - All users have better internet connection and a browser
 
 # User Use Case ( Farmers and Traders )
-<img align="center" src="User use case (1).png" width="200" />
+<img align="center" src="User use case (1).png" />
 
 # Admin Use Case
 <img align="center" src="Admin use case.png" />
 # A5dar ERD
-<img align="center" src="A5dar ERD (1).pdf" />
+![Diagram](A5dar ERD (1).pdf)
 
 
 
